@@ -1,6 +1,6 @@
 <template>
   <div class="zTreeDemoBackground left" v-if='data.length>0'>
-    <ul class="ztree">
+    <ul class="ztree" :class="{'select-ztree':select}">
       <ztree-item v-for='(m,i) in data' :key='i' :model.sync="m" :num.sync='i' root='0' :nodes.sync='data.length' :callback='func' :trees.sync='data'></ztree-item>
     </ul>
   </div>
@@ -29,6 +29,10 @@ export default {
       type: Boolean,
       twoWay: true,
       default: false
+    },
+    select:{
+       type: Boolean,
+       default: false
     }
   },
   watch: {
@@ -201,6 +205,7 @@ div.zTreeDemoBackground {
   width: 100%;
   height: 500px;
   text-align: left;
+  color:#657180;
 }
 
 .expendIcon {
@@ -234,7 +239,9 @@ ul.ztree {
   -khtml-user-select: none;
   user-select: none;
 }
-
+.select-ztree{
+  margin:0!important;
+}
 .ztree * {
   padding: 0;
   margin: 0;
@@ -245,7 +252,7 @@ ul.ztree {
 .ztree {
   margin: 0;
   padding: 5px;
-  color: #333;
+  color: #657180;
   li {
     position: relative;
     padding: 0;
@@ -264,7 +271,7 @@ ul.ztree {
       margin: 0;
       cursor: pointer;
       height: 17px;
-      color: #333;
+      color: #657180;
       background-color: transparent;
       text-decoration: none;
       vertical-align: top;

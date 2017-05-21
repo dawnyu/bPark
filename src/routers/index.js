@@ -12,6 +12,7 @@ const ztree = resolve => require(['../pages/ztree'], resolve)
 const resources = resolve => require(['../pages/resources'], resolve)
 const resourceedit = resolve => require(['../pages/resourceedit'], resolve)
 const userrole = resolve => require(['../pages/userrole'], resolve)
+const test = resolve => require(['../pages/test'], resolve)
 Vue.use(VueRouter)
 
 const router = new VueRouter({
@@ -57,6 +58,9 @@ const router = new VueRouter({
             {
                 path: '/userrole',
                 component: userrole
+            }, {
+                path: '/test',
+                component: test
             }
         ]
     })

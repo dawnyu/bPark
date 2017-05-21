@@ -1,0 +1,14 @@
+{
+    "isSuccess": "0",
+    "msg": "",
+    "body": {
+        "name": "张三",
+        "login": "zhangsan",
+        "bmOrganizationId": "ssss",
+        "type": "0",
+        "email": "dddd@111.com",
+        "phone": "13015212015",
+        "contact": "4033333",
+        "remark": "ssssssssssssssssssss"
+    }
+}

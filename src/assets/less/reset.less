@@ -1,0 +1,134 @@
+@import './variable.less';
+.borderLine {
+    border: 1px solid @border-color-base;
+}
+
+.border-bottom {
+    border-bottom: 1px solid @border-color-base;
+}
+
+.border-top {
+    border-top: 1px solid @border-color-base;
+}
+
+.border-right {
+    border-right: 1px solid @border-color-base;
+}
+
+.border-left {
+    border-left: 1px solid @border-color-base;
+}
+
+.table {
+    width: 95%;
+    margin: 3rem 0 1rem 0;
+    border: none;
+}
+
+.model-title {
+    font-size: 1.3em;
+    color: @header-title-color;
+    border-left: 3px solid @header-title-color;
+    padding-left: 0.5rem;
+}
+
+.mixin-btn(@color, @fontSize: 14px) {
+    font-size: @fontSize;
+    background: @color;
+    border-color: @color;
+    color: #fff;
+    &:hover {
+        color: #fff;
+        background: darken(@color, 5%);
+        border-color: darken(@color, 5%);
+    }
+    &:active {
+        background: darken(@color, 10%);
+        border-color: darken(@color, 10%);
+    }
+}
+
+.info-btn {
+    .mixin-btn(@select-btn-color);
+}
+
+.edit-btn {
+    .mixin-btn(@green-color);
+}
+
+.accredit-btn {
+    .mixin-btn(@select-btn-color);
+}
+
+.delete-btn {
+    .mixin-btn(@pink-color);
+}
+
+.download-btn {
+    .mixin-btn(@normal-font-color);
+}
+
+.return-btn {
+    height: 55px;
+    padding: 6px 60px 7px 60px;
+    margin: 0 10px;
+    .mixin-btn(@base-clean-btn-color, 1.3rem);
+}
+
+.modal-submit-btn {
+    height: 40px;
+    padding: 6px 30px 7px 30px;
+    margin: 0 10px;
+    .mixin-btn(@select-btn-color, 1.1rem);
+}
+
+.modal-delete-btn {
+    height: 40px;
+    padding: 6px 40px 7px 40px;
+    margin: 0 10px;
+    .mixin-btn(@alert-font-color, 1rem);
+}
+
+.modal-cancel-btn {
+    height: 40px;
+    padding: 6px 40px 7px 40px;
+    margin: 10px 20px;
+    .mixin-btn(@base-clean-btn-color, 1rem);
+}
+
+.submit-btn {
+    height: 55px;
+    padding: 6px 60px 7px 60px;
+    margin: 10px 20px;
+    .mixin-btn(@select-btn-color, 1.3rem);
+}
+
+.icon-clean {
+    font-size: 14px;
+}
+
+.ivu-modal-header,
+.ivu-modal-footer {
+    border: none;
+    text-align: center!important;
+}
+
+.ivu-modal-header {
+    background: #3E4A58;
+    p {
+        text-align: center!important;
+        color: #fff;
+        font-size: 16px;
+    }
+}
+
+.ivu-modal-body {
+    padding: 16px!important;
+    line-height: 80px!important;
+    height: 100px!important;
+    font-size: 16px!important;
+    em {
+        color: @alert-font-color;
+        font-style: normal;
+    }
+}

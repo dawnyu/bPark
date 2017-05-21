@@ -1,0 +1,27 @@
+table {
+    width: 100%;
+    text-align: center;
+    tr {
+        height: 40px;
+        line-height: 40px;
+        border-bottom: 1px solid #ccc;
+        td {
+            min-width: 0;
+            box-sizing: border-box;
+            text-overflow: ellipsis;
+            vertical-align: middle;
+            border-bottom: 1px solid #e3e8ee;
+            transition: background-color .2s ease-in-out;
+        }
+    }
+    tr:nth-child(odd) {
+        background-color: #F5F7F9;
+    }
+    tr:hover {
+        background-color: #F5F7F9;
+    }
+}
+
+.ivu-btn-small {
+    padding: 1px 7px;
+}

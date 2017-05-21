@@ -1,0 +1,12 @@
+{
+    "isSuccess": "0",
+    "msg": "查询成功",
+    "body": {
+        "bmRoleId": "1111",
+        "roleName": "角色",
+        "bmOrganizationId": "99991",
+        "roleType": "0",
+        "enableStatus": "0",
+        "remark": ""
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "isSuccess": "0",
+    "msg": "添加成功",
+    "body": {
+        "bmOrganizationId": "ssssssss",
+        "name": "机构",
+        "organizationCode": "1111",
+        "enableStatus": "0",
+        "orderCode": 1,
+        "parentCode": "1",
+        "remark": "ewewewewewewewewewewwewe"
+    }
+}

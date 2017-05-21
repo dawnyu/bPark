@@ -1,0 +1,15 @@
+{
+    "isSuccess": "0",
+    "msg": "查询成功",
+    "body": {
+        "bmUserId": "1313131",
+        "name": "张三",
+        "bmOrganizationId": "ssss",
+        "login": "zhangsan",
+        "type": "0",
+        "email": "dddd@111.com",
+        "phone": "13015212015",
+        "contact": "4033333",
+        "remark": "ssssssssssssssssssss"
+    }
+}

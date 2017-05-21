@@ -1,0 +1,35 @@
+@import './variable.less';
+@import './customTable.less';
+@import './reset.less';
+.btn {
+    border: 1px solid @border-color-base;
+    border-radius: 12px;
+    padding: 5px 20px;
+    cursor: pointer;
+    i {
+        margin: 0 8px;
+        position: relative;
+        top: 2px;
+    }
+    &:hover {
+        background: darken(#ffffff, 5%);
+    }
+    &:active {
+        background: darken(#ffffff, 10%);
+    }
+}
+
+.content {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.item-header {
+    height: 70px;
+    line-height: 70px;
+}
+
+.modal-header {
+    font-weight: 100px;
+    font-family: '微软雅黑';
+}

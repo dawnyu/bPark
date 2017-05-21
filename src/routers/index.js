@@ -9,6 +9,9 @@ const useredit = resolve => require(['../pages/useredit'], resolve)
 const roleedit = resolve => require(['../pages/roleedit'], resolve)
 const rolelist = resolve => require(['../pages/rolelist'], resolve)
 const ztree = resolve => require(['../pages/ztree'], resolve)
+const resources = resolve => require(['../pages/resources'], resolve)
+const resourceedit = resolve => require(['../pages/resourceedit'], resolve)
+const userrole = resolve => require(['../pages/userrole'], resolve)
 Vue.use(VueRouter)
 
 const router = new VueRouter({
@@ -30,15 +33,30 @@ const router = new VueRouter({
             {
                 path: '/useredit',
                 component: useredit
-            }, {
+            },
+            {
                 path: '/roleedit',
                 component: roleedit
-            }, {
+            },
+            {
                 path: '/rolelist',
                 component: rolelist
-            }, {
+            },
+            {
                 path: '/ztree',
                 component: ztree
+            },
+            {
+                path: '/resources',
+                component: resources
+            },
+            {
+                path: '/resourceedit',
+                component: resourceedit
+            },
+            {
+                path: '/userrole',
+                component: userrole
             }
         ]
     })

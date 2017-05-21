@@ -1,44 +1,56 @@
 <template>
   <div>
-    <Row class="item-header">
-      <Col span="21">
-      <blockTitle>人员信息表</blockTitle>
+    <Row>
+      <Col span="4" class="left-tree">
+      <p class="tree-header">
+        <Icon type="ios-people" class="tree-header-icon" size="23"></Icon>
+        组织机构
+      </p>
+      <ztree :list='ztreeDataSource' :func='nodeClick' :is-open='true'></ztree>
       </Col>
-      <Col span="3">
-      <span class="btn" @click.stop="add">
-        <Icon type="android-add-circle" size="16"></Icon>增加</span>
+      <Col span="20">
+      <Row class="item-header">
+        <Col span="21">
+        <blockTitle>人员信息表</blockTitle>
+        </Col>
+        <Col span="3">
+        <span class="btn" @click.stop="add">
+          <Icon type="android-add-circle" size="16"></Icon>增加</span>
+        </Col>
+      </Row>
+      <Row type="flex" justify="center" class="content">
+        <Col span="22">
+        <table cellspacing="0" cellpadding="0" border="0">
+          <tr>
+            <td>编号</td>
+            <td>姓名</td>
+            <td>登录账号</td>
+            <td>所属部门</td>
+            <td>人员角色</td>
+            <td>用户状态</td>
+            <td>授权状态</td>
+            <td>操作</td>
+          </tr>
+          <tr v-for="(user,index) in userList">
+            <td>{{pageSize*(page-1)+index+1| zerofill}}</td>
+            <td>{{user.name}}</td>
+            <td>{{user.login}}</td>
+            <td>{{user.bmOrganizationName}}</td>
+            <td>{{user.roleName}}</td>
+            <td>{{user.state}}</td>
+            <td>{{user.isAuth}}</td>
+            <td>
+              <Button size="small" class="edit-btn" @click.stop="edit(user.bmUserId)">编辑</Button>
+              <Button size="small" class="delete-btn" @click.stop="deleteModal = true">授权</Button>
+              <Button size="small" class="delete-btn" @click.stop="delModal(user.bmUserId)">删除</Button>
+            </td>
+          </tr>
+        </table>
+        </Col>
+      </Row>
       </Col>
     </Row>
-    <Row type="flex" justify="center" class="content">
-      <Col span="22">
-      <table cellspacing="0" cellpadding="0" border="0">
-        <tr>
-          <td>编号</td>
-          <td>姓名</td>
-          <td>登录账号</td>
-          <td>所属部门</td>
-          <td>人员角色</td>
-          <td>用户状态</td>
-          <td>授权状态</td>
-          <td>操作</td>
-        </tr>
-        <tr v-for="(user,index) in userList">
-          <td>{{pageSize*(page-1)+index+1| zerofill}}</td>
-          <td>{{user.name}}</td>
-          <td>{{user.login}}</td>
-          <td>{{user.bmOrganizationName}}</td>
-          <td>{{user.roleName}}</td>
-          <td>{{user.state}}</td>
-          <td>{{user.isAuth}}</td>
-          <td>
-            <Button size="small" class="edit-btn" @click.stop="edit(user.bmUserId)">编辑</Button>
-            <Button size="small" class="delete-btn" @click.stop="deleteModal = true">授权</Button>
-            <Button size="small" class="delete-btn" @click.stop="delModal(user.bmUserId)">删除</Button>
-          </td>
-        </tr>
-      </table>
-      </Col>
-    </Row>
+
     <Row type="flex" justify="center" style="margin:50px;">
       <Col>
       <Page :total="total" :pageSize=17 @on-change="toPage" v-if="total > pageSize"></Page>
@@ -69,13 +81,19 @@ export default {
       total: 0,
       deleteModal: false,
       organizationId: '',
-      userList: []
+      userList: [],
+      levelCode: '',
+      ztreeDataSource: []
     }
   },
   mounted() {
     this.loadPage()
+    this.selectOrganizByFathorCode()
   },
   methods: {
+    nodeClick(m) {
+      this.organizationId = m.organizationCode
+    },
     loadPage() {
       this.http.post('/user/selectUserByPage', {
         name: '',
@@ -86,6 +104,14 @@ export default {
         this.userList = data.body
         this.total = data.total
       })
+    },
+    selectOrganizByFathorCode() {
+      this.http.post('/organizatoin/selectOrganizByFathorCode', {})
+        .then(data => {
+          this.$nextTick(() => {
+            this.ztreeDataSource = data.body
+          })
+        })
     },
     toPage(page) {
       this.page = page

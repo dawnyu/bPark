@@ -1,42 +1,53 @@
 <template>
   <div>
-    <Row class="item-header">
-      <Col span="21">
-      <blockTitle>部门信息表</blockTitle>
+    <Row>
+      <Col span="4" class="left-tree">
+      <p class="tree-header">
+        <Icon type="ios-people" class="tree-header-icon" size="23"></Icon>
+        组织机构
+      </p>
+      <ztree :list='ztreeDataSource' :func='nodeClick' :is-open='true'></ztree>
       </Col>
-      <Col span="3">
-      <span class="btn" @click.stop="add">
-        <Icon type="android-add-circle" size="16"></Icon>增加</span>
-      </Col>
-    </Row>
-    <Row type="flex" justify="center" class="content">
-      <Col span="22">
-      <table cellspacing="0" cellpadding="0" border="0">
-        <tr>
-          <td>编号</td>
-          <td>部门</td>
-          <td>排序</td>
-          <td>上级部门</td>
-          <td>部门描述</td>
-          <td>操作</td>
-        </tr>
-        <tr v-for="(depart,index) in departList">
-          <td>{{pageSize*(page-1)+index+1| zerofill}}</td>
-          <td>{{depart.name}}</td>
-          <td>{{depart.orderCode}}</td>
-          <td>{{depart.parentName}}</td>
-          <td>{{depart.remark}}</td>
-          <td>
-            <Button size="small" class="edit-btn" @click.stop="edit(depart.bmOrganizationId)">编辑</Button>
-            <Button size="small" class="delete-btn" @click.stop="delModal(depart.bmOrganizationId)">删除</Button>
-          </td>
-        </tr>
-      </table>
-      </Col>
-    </Row>
-    <Row type="flex" justify="center" style="margin:50px;">
-      <Col>
-      <Page :total="total" :pageSize=17 @on-change="toPage" v-if="total > pageSize"></Page>
+      <Col span="20">
+      <Row class="item-header">
+        <Col span="21">
+        <blockTitle>部门信息表</blockTitle>
+        </Col>
+        <Col span="3">
+        <span class="btn" @click.stop="add">
+          <Icon type="android-add-circle" size="16"></Icon>增加</span>
+        </Col>
+      </Row>
+      <Row type="flex" justify="center" class="content">
+        <Col span="22">
+        <table cellspacing="0" cellpadding="0" border="0">
+          <tr>
+            <td>编号</td>
+            <td>部门</td>
+            <td>排序</td>
+            <td>上级部门</td>
+            <td>部门描述</td>
+            <td>操作</td>
+          </tr>
+          <tr v-for="(depart,index) in departList">
+            <td>{{pageSize*(page-1)+index+1| zerofill}}</td>
+            <td>{{depart.name}}</td>
+            <td>{{depart.orderCode}}</td>
+            <td>{{depart.parentName}}</td>
+            <td>{{depart.remark}}</td>
+            <td>
+              <Button size="small" class="edit-btn" @click.stop="edit(depart.bmOrganizationId)">编辑</Button>
+              <Button size="small" class="delete-btn" @click.stop="delModal(depart.bmOrganizationId)">删除</Button>
+            </td>
+          </tr>
+        </table>
+        </Col>
+      </Row>
+      <Row type="flex" justify="center" style="margin:50px;">
+        <Col>
+        <Page :total="total" :pageSize=17 @on-change="toPage" v-if="total > pageSize"></Page>
+        </Col>
+      </Row>
       </Col>
     </Row>
     <Modal v-model="deleteModal" width="500" :styles="{top: '200px'}">
@@ -64,13 +75,25 @@ export default {
       total: 0,
       deleteModal: false,
       organizationId: '',
-      departList: []
+      levelCode: '',
+      departList: [],
+      ztreeDataSource: []
     }
   },
   mounted() {
+    $(".left-tree").css({ "height": window.innerHeight })
     this.loadPage()
+    this.selectOrganizByFathorCode()
+  },
+  watch: {
+    organizationId(val) {
+      this.loadPage()
+    }
   },
   methods: {
+    nodeClick(m) {
+      this.organizationId = m.organizationCode
+    },
     loadPage() {
       this.http.post('/organizatoin/selectOrganizationByPage', {
         name: '',
@@ -81,6 +104,14 @@ export default {
         this.departList = data.body
         this.total = data.total
       })
+    },
+    selectOrganizByFathorCode() {
+      this.http.post('/organizatoin/selectOrganizByFathorCode', {})
+        .then(data => {
+          this.$nextTick(() => {
+            this.ztreeDataSource = data.body
+          })
+        })
     },
     toPage(page) {
       this.page = page

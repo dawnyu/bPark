@@ -1,0 +1,70 @@
+@import './variable.less';
+@import './index.less';
+.wrapper {
+    width: 80%;
+    height: 700px;
+    background: #fff;
+    margin: 0 auto;
+    border: 1px dashed #ccc;
+    .content {
+        width: 90%;
+        margin: 30px auto;
+        p {
+            height: 40px;
+            line-height: 40px;
+        }
+        .input {
+            margin-bottom: 10px;
+            input {
+                height: 50px!important;
+            }
+        }
+    }
+}
+
+.role-item {
+    height: 700px;
+    border-right: 1px dashed #ccc;
+    .title {
+        color: @select-btn-color;
+        font-size: 16px;
+        margin: 20px 10%;
+    }
+}
+
+.diamonds {
+    padding: 15px 15px;
+    position: absolute;
+    right: -16px;
+    transform: rotate(45deg);
+    top: 340px;
+    border-top: 1px dashed #ccc;
+    background: #fff;
+    border-right: 1px dashed #ccc;
+}
+
+.role-checkbox {
+    width: 80%;
+    margin: 40px 10%;
+    font-size: 16px;
+}
+
+div.zTreeDemoBackground {
+    height: initial;
+}
+
+.title-p {
+    width: 60%;
+    margin: 0 auto;
+    font-size: 16px;
+    background: #DAE7F7;
+    padding: 3px 15px;
+}
+
+.ztree-content {
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 600px;
+    position: relative;
+    z-index: 10;
+}

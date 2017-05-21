@@ -15,36 +15,36 @@ export default {
       ztreeDataSource: [{
         id: 1,
         name: "音乐",
-        children: [],
+        nodeList: [],
         path: "http://www.baidu.com"
       }, {
         id: 220,
         name: "游戏",
-        children: [],
+        nodeList: [],
         path: "http://www.baidu.com"
       }, {
-        id: 2,
+        id: 2344344334,
         name: "视频",
-        children: [{
-          id: 3,
+        nodeList: [{
+          id: 34343434334,
           name: "电影",
-          children: [{
-            id: 4,
+          nodeList: [{
+            id: 443433434,
             name: "国产电影",
             path: ""
           }, {
-            id: 5,
+            id: 5434343,
             name: "好莱坞电影",
             path: ""
           }, {
-            id: 6,
+            id: 643344334,
             name: "小语种电影",
             path: ""
           }]
         }, {
           id: 7,
           name: "短片",
-          children: [{
+          nodeList: [{
             id: 9,
             name: "电视剧",
             path: ""

@@ -8,35 +8,37 @@
             "name": "阳光海天",
             "enableStatus": "0",
             "remark": "",
+            "levelCode": "32323223",
+            "organizationCode": "111213223322112212112211",
             "code": "ssssswewewewewsss",
             "nodeList": [{
                 "name": "北部区域",
-                "organizationCode": "1111",
+                "organizationCode": "111212112212112211",
                 "enableStatus": "0",
                 "code": "a222aewewewa",
                 "parentCode": "ssssssss",
                 "nodeList": [{
                     "name": "北京分公司",
-                    "organizationCode": "1111",
+                    "organizationCode": "11121212212121211",
                     "enableStatus": "0",
                     "code": "eewweewewweewewewewwewa",
                     "parentCode": "ssssssss",
                     "nodeList": [{
                         "name": "管理部",
-                        "organizationCode": "1111",
+                        "organizationCode": "1121212323232111",
                         "enableStatus": "0",
                         "code": "eewweewewweesddsdssdwwewa",
                         "parentCode": "ssssssss",
                         "nodeList": []
                     }, {
                         "name": "项目部",
-                        "organizationCode": "1111",
+                        "organizationCode": "11212123232678111",
                         "enableStatus": "0",
                         "code": "eewweeweww3223323223eewwewa",
                         "parentCode": "ssssssss",
                         "nodeList": [{
                             "name": "环保项目部",
-                            "organizationCode": "1111",
+                            "organizationCode": "11121212211112121",
                             "enableStatus": "0",
                             "code": "eewweewewweewwewa",
                             "parentCode": "ssssssss",
@@ -47,6 +49,7 @@
             }, {
                 "name": "东部区域",
                 "enableStatus": "0",
+                "organizationCode": "111212122134232441112121",
                 "code": "ewewewewewwe",
                 "parentCode": "ssssssss",
                 "nodeList": []

@@ -132,3 +132,58 @@
         font-style: normal;
     }
 }
+
+.left-tree {
+    border-right: 1px solid @border-color-base;
+}
+
+.tree-header {
+    height: 55px;
+    line-height: 55px;
+    font-size: 15px;
+    margin-bottom: 5px;
+    background: #F0F5FB;
+    box-shadow: 0 4px 5px -1px #ccc;
+    border-bottom: 1px solid #ccc;
+    color: #00ceec;
+    color: @select-btn-color;
+    &-icon {
+        position: relative;
+        margin-left: 25px;
+        top: 2px;
+    }
+}
+
+.ivu-radio-checked .ivu-radio-inner {
+    border-color: #00ceec;
+}
+
+.ivu-checkbox {
+    margin-right: 20px;
+}
+
+.ivu-checkbox-inner {
+    width: 18px!important;
+    height: 18px!important;
+}
+
+.ivu-checkbox-checked .ivu-checkbox-inner:after {
+    content: '';
+    display: table;
+    width: 6px!important;
+    height: 12px!important;
+    position: absolute;
+    top: 1px!important;
+    left: 5px!important;
+    border: 2px solid #00ceec;
+    border-top: 0;
+    border-left: 0;
+    -ms-transform: rotate(45deg) scale(1);
+    transform: rotate(42deg) scale(1);
+    transition: all .2s ease-in-out;
+}
+
+.ivu-checkbox-checked .ivu-checkbox-inner {
+    border-color: #00ceec!important;
+    background-color: #00ceec!important;
+}

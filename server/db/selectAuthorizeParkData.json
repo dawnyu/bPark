@@ -1,0 +1,13 @@
+{
+    "isSuccess": "0",
+    "msg": "修改成功",
+    "body": [{
+        "pmParkId": "3werwerwerwer",
+        "parkName": "大悦城",
+        "checked": true
+    }, {
+        "pmParkId": "3werwerwerwer",
+        "parkName": "大悦城",
+        "checked": false
+    }]
+}

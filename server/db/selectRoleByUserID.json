@@ -1,0 +1,17 @@
+{
+    "isSuccess": 0,
+    "msg": "查询成功",
+    "body": [{
+        "bmRoleId": "23233242323232",
+        "roleName": "管理员",
+        "checked": true
+    }, {
+        "bmRoleId": "221122132323232",
+        "roleName": "运营主管",
+        "checked": true
+    }, {
+        "bmRoleId": "232323567890232",
+        "roleName": "项目经理",
+        "checked": false
+    }]
+}

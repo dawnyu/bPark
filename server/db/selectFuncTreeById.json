@@ -1,0 +1,13 @@
+{
+    "isSuccess": "0",
+    "msg": "查询成功",
+    "body": {
+        "bmFuncTreeId": "22222",
+        "name": "监控中心",
+        "isPublic": 0,
+        "type": 0,
+        "url": "www.baidu.com",
+        "enableStatus": "0",
+        "remark": ""
+    }
+}

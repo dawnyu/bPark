@@ -1,0 +1,181 @@
+@import './variable.less';
+@import './reset.less';
+@import './customTable.less';
+
+table tr{
+    height: 60px;
+    line-height: 60px;
+    td {
+        .carNumFir{
+        box-sizing: border-box;
+        margin-right: 4px;
+        padding: 4px;
+        color: white;
+        }
+        .bd{
+            overflow: hidden;
+            padding: 4px 4px 4px 0;
+            background: @car-num-white;
+        }
+        .bd.blue{
+            border:1px solid @car-num-blue
+        }
+        .bd.black{
+            border:1px solid @car-num-black
+        }
+        .bd.green{
+            border:1px solid @car-num-green
+        }
+        .bd.yellow{
+            border:1px solid @car-num-yellow
+        }
+        .bd.white{
+            border:1px solid @car-num-black
+        }
+        .carNumFir.blue{
+            background-color: @car-num-blue
+        }
+        .carNumFir.black{
+            background-color: @car-num-black
+        }
+        .carNumFir.green{
+            background-color: @car-num-green
+        }
+        .carNumFir.yellow{
+            background-color: @car-num-yellow
+        }
+        .carNumFir.white{
+            border-right: 1px solid #dadee1;
+            color: #657481;
+            background-color: @car-num-white
+        }
+    }
+}
+.date-picker-wrapper {
+    margin: 20px;
+}
+
+.account-title {
+    text-align: center;
+    font-size: 18px;
+    line-height: 100px;
+    height: 100px;
+    color: #6C7E91;
+    em {
+        font-family: @num-font-family;
+        font-style: normal;
+        margin: 0 0 0 1rem;
+    }
+    &-em {
+        font-size: 2rem;
+    }
+    &-normal {
+        font-size: 1.2rem;
+    }
+}
+
+.export-excel-row {
+    text-align: center;
+    height: 66px;
+    line-height: 66px;
+    cursor: pointer;
+    &-btn {
+        border: 1px solid @border-color-base;
+        border-radius: 12px;
+        padding: 5px 20px;
+    }
+    &-down {
+        font-size: 20px;
+        margin-right: 5px;
+        position: relative;
+        top: 2px;
+    }
+}
+
+.icon-person {
+    position: relative;
+    font-size: 18px;
+    margin: 0 5px;
+    color: #72D071;
+}
+
+.icon-excel {
+    font-size: 14px;
+    position: relative;
+    top: 2px;
+    left: -4px;
+}
+
+.clean-btn {
+    font-size: 14px;
+    padding: 1px 7px;
+    border-color: @base-clean-btn-color;
+    color: #fff;
+    background: @base-clean-btn-color;
+    &:hover {
+        color: #fff;
+        background: darken(@base-clean-btn-color, 5%);
+        border-color: darken(@base-clean-btn-color, 5%);
+    }
+    &:active {
+        background: darken(@base-clean-btn-color, 10%);
+        border-color: darken(@base-clean-btn-color, 10%);
+    }
+}
+
+.tab {
+    display: flex;
+    border: 1px solid @border-color-base;
+    height: 25px;
+    line-height: 25px;
+    margin-top: 15px;
+    width: 450px;
+    border-radius: 20px;
+    justify-content: space-around;
+    li {
+        width: 25%;
+    }
+    .selected {
+        color: #fff;
+        border-radius: 20px;
+        background: @select-btn-color;
+    }
+}
+
+.account-block {
+    border: 1px solid @border-color-base;
+    font-size: 1rem;
+    p:nth-child(1) {
+        height: 40px;
+        line-height: 40px;
+        padding-left: 10px;
+        font-style: normal;
+        border-bottom: 1px solid @border-color-base;
+        span {
+            float: right;
+            margin-right: 10px;
+            background: #dde0e2;
+            line-height: 18px;
+            border-radius: 15px;
+            padding: 0px 10px;
+            margin-top: 10px;
+            font-size: 12px;
+        }
+    }
+    p:nth-child(2) {
+        height: 70px;
+        line-height: 70px;
+        text-align: center;
+        color: @normal-font-color;
+        em {
+            font-family: @num-font-family;
+            font-style: normal;
+            margin: 0 0 0 1rem;
+            font-size: 2.2rem;
+        }
+    }
+}
+
+.alert-font-color {
+    color: @alert-font-color!important;
+}

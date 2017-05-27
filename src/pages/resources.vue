@@ -25,9 +25,9 @@
           <td>{{resource.url}}</td>
           <td>{{enableStatus[resource.enableStatus]}}</td>
           <td>
-            <Button size="small" class="edit-btn" @click.stop="edit(resource.bmFuncTreeId)">编辑</Button>
-            <Button size="small" class="accredit-btn" v-if="resource.enableStatus == '1'" @click.stop="startStop(resource.bmFuncTreeId,0)">启用</Button>
-            <Button size="small" class="delete-btn" v-if="resource.enableStatus == '0'" @click.stop="startStop(resource.bmFuncTreeId,1)">停用</Button>
+            <Button size="small" class="edit-btn" @click.stop="edit(resource.bmFunctreeId)">编辑</Button>
+            <Button size="small" class="accredit-btn" v-if="resource.enableStatus == '1'" @click.stop="startStop(resource.bmFunctreeId,0)">启用</Button>
+            <Button size="small" class="delete-btn" v-if="resource.enableStatus == '0'" @click.stop="startStop(resource.bmFunctreeId,1)">停用</Button>
           </td>
         </tr>
       </table>
@@ -61,10 +61,10 @@ export default {
   },
   methods: {
     loadPage() {
-      this.http.post('/funcTree/selectFuncTreeByPage', {
+      this.http.post('btcauthorize/funcTree/selectFuncTreeByPage', {
         name: '',
         type: '',
-        start: this.page * this.pageSize,
+        start: (this.page - 1) * this.pageSize,
         limit: this.pageSize,
         organizationId: this.organizationId
       }).then(data => {
@@ -79,17 +79,18 @@ export default {
       this.$router.push({ path: '/resourceedit', query: { type: 1 } })
     },
     edit(id) {
+      debugger
       this.$router.push({ path: '/resourceedit', query: { bmFunctreeId: id, type: 0 } })
     },
     startStop(id, type) {
       //{bmFuncTreeId}/{type}
-      this.http.post(`/user/updateFuncTreeStatusByFunctreeId`, {}).then(data => {
+      this.http.post(`btcauthorize/funcTree/updateFuncTreeStatusByFuncTreeId/${id}/${type}`, {}).then(data => {
         this.loadPage()
       })
     },
     del() {
       //`/user/deleteUserByUserId/${this.id}`
-      this.http.post(`/user/deleteUserByUserId`, {}).then(data => {
+      this.http.post(`btcauthorize/user/deleteUserByUserId`, {}).then(data => {
         this.deleteModal = false
         alert(data.msg)
         this.loadPage()

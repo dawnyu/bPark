@@ -60,6 +60,16 @@ const parseMoney = (money) => {
         val += arr[i]
         if (i > 0 && (i + 1) % 3 === 0) val += ','
     }
+    if (val.slice(val.length - 1, val.length) === ',') val = val.slice(0, val.length - 1)
     return val.split('').reverse().join('').concat('.').concat(money.split('.')[1])
 }
-export { parseCarNum, null2zero, parseAmountAndDHM, parseAmountAndHM, parseCard, parseMoney }
+
+import { CARCOLORNAME, CARCOLOR } from '../assets/js/constants.js'
+
+const parseCarNumColor = (color) => {
+    return CARCOLOR[color]
+}
+const parseCarNumColorName = (color) => {
+    return CARCOLORNAME[color]
+}
+export { parseCarNum, null2zero, parseAmountAndDHM, parseAmountAndHM, parseCard, parseMoney, parseCarNumColor, parseCarNumColorName }

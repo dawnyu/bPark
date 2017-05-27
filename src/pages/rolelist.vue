@@ -28,12 +28,12 @@
           <td>{{roleType[role.roleType]}}</td>
           <td>{{role.bmOrganizationName}}</td>
           <td>{{role.remark}}</td>
-          <td>{{state[role.state]}}</td>
+          <td>{{state[role.enableStatus]}}</td>
           <td>{{role.isAuth}}</td>
           <td>
             <Button size="small" class="edit-btn" @click.stop="edit(role.bmRoleId)">编辑</Button>
-            <Button size="small" class="accredit-btn" @click.stop="deleteModal = true">授权</Button>
-            <Button size="small" class="delete-btn" @click.stop="delModal(role.bmRoleId)">删除</Button>
+            <Button size="small" class="accredit-btn" @click.stop="author(role.bmRoleId)">授权</Button>
+            <Button size="small" class="delete-btn" @click.stop="delModal(role)">删除</Button>
           </td>
         </tr>
       </table>
@@ -51,7 +51,7 @@
       </p>
       <div style="text-align:center">
         <p>是否继续删除
-          <em>[部门]</em>？</p>
+          <em>[{{role.roleName}}]</em>？</p>
       </div>
       <div slot="footer">
         <Button type="error" size="large" class="modal-delete-btn" @click="del()">删除</Button>
@@ -72,7 +72,7 @@ export default {
       roleList: [],
       roleType: ['公有角色', '私有角色'],
       state: ['启用', '禁用'],
-      roleId: ''
+      role: ''
     }
   },
   mounted() {
@@ -80,9 +80,9 @@ export default {
   },
   methods: {
     loadPage() {
-      this.http.post('/user/selectRoleByPage', {
+      this.http.post('btcauthorize/role/selectRoleByPage', {
         name: '',
-        start: this.page * this.pageSize,
+        start: (this.page - 1) * this.pageSize,
         limit: this.pageSize,
         organizationId: this.organizationId
       }).then(data => {
@@ -93,19 +93,21 @@ export default {
     toPage(page) {
       this.page = page
     },
+    author(roleId) {
+      this.$router.push({ path: '/authortree', query: { roleId: roleId } })
+    },
     add() {
       this.$router.push({ path: '/roleedit', query: { type: 1 } })
     },
     edit(id) {
       this.$router.push({ path: '/roleedit', query: { roleId: id, type: 0 } })
     },
-    delModal(id) {
+    delModal(role) {
       this.deleteModal = true
-      this.roleId = id
+      this.role = role
     },
     del() {
-      //`/user/deleteUserByUserId/${this.roleId}`
-      this.http.post(`/user/deleteUserByUserId`, {}).then(data => {
+      this.http.post(`btcauthorize/role/deleteRoleByRoleId/${this.role.bmRoleId}`, {}).then(data => {
         this.deleteModal = false
         alert(data.msg)
         this.loadPage()

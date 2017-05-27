@@ -1,7 +1,7 @@
 <template>
   <div class="zTreeDemoBackground left" v-if='data.length>0'>
     <ul class="ztree" :class="{'select-ztree':select}">
-      <ztree-item v-for='(m,i) in data' :key='i' :model.sync="m" :num.sync='i' root='0' :nodes.sync='data.length' :callback='func' :trees.sync='data'></ztree-item>
+      <ztree-item v-for='(m,i) in data' :key='i' :model.sync="m" :param="param" :num.sync='i' root='0' :nodes.sync='data.length' :callback='func' :trees.sync='data'></ztree-item>
     </ul>
   </div>
 </template>
@@ -30,9 +30,13 @@ export default {
       twoWay: true,
       default: false
     },
-    select:{
-       type: Boolean,
-       default: false
+    select: {
+      type: Boolean,
+      default: false
+    },
+    param: {
+      type: [Boolean, Array, String, Number],
+      default: ''
     }
   },
   watch: {
@@ -96,11 +100,15 @@ export default {
         callback: {
           type: Function,
           twoWay: true
+        },
+        param: {
+          type: [Boolean, Array, String, Number],
+          default: ''
         }
       },
       methods: {
         Func(m) {
-          this.callback.call(null, m);
+          this.callback.call(null, m, this.param);
 
           // 查找点击的子节点
           var recurFunc = function (data) {
@@ -178,11 +186,11 @@ export default {
       <i class="iconfont icon-biaotou-daoxu" v-if="model.nodeList && model.nodeList.length>0" @click='open(model)' style="font-size:20px"></i>
 				<a :class="aClassVal" @click='Func(model)'>
 				    <span><img v-if='model.iconPath' :src='model.iconPath' :style='model.iconStyle'></span>
-					<span class="node_name" v-if="model.nodeList && model.nodeList.length>0"  @click='open(model)'>{{model.name}}</span>
+					<span class="node_name" v-if="model.nodeList && model.nodeList.length>0">{{model.name}}</span>
           <span class="node_name" v-else>{{model.name}}</span>
 				</a>
 				<ul :class="ulClassVal" v-show='model.isFolder'>
-					<ztree-item v-for="(item,i) in model.nodeList" :key='i' :callback.sync='callback' :model.sync="item" :num.sync='i' root='1' :nodes.sync='model.nodeList.length' :trees.sync='trees'></ztree-item>
+					<ztree-item v-for="(item,i) in model.nodeList" :key='i' :param='param' :callback.sync='callback' :model.sync="item" :num.sync='i' root='1' :nodes.sync='model.nodeList.length' :trees.sync='trees'></ztree-item>
 				</ul>
 			</li>`
     }
@@ -205,7 +213,7 @@ div.zTreeDemoBackground {
   width: 100%;
   height: 500px;
   text-align: left;
-  color:#657180;
+  color: #657180;
 }
 
 .expendIcon {
@@ -239,9 +247,11 @@ ul.ztree {
   -khtml-user-select: none;
   user-select: none;
 }
-.select-ztree{
-  margin:0!important;
+
+.select-ztree {
+  margin: 0!important;
 }
+
 .ztree * {
   padding: 0;
   margin: 0;

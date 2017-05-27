@@ -8,10 +8,14 @@ const userlist = resolve => require(['../pages/userlist'], resolve)
 const useredit = resolve => require(['../pages/useredit'], resolve)
 const roleedit = resolve => require(['../pages/roleedit'], resolve)
 const rolelist = resolve => require(['../pages/rolelist'], resolve)
-const ztree = resolve => require(['../pages/ztree'], resolve)
 const resources = resolve => require(['../pages/resources'], resolve)
 const resourceedit = resolve => require(['../pages/resourceedit'], resolve)
 const userrole = resolve => require(['../pages/userrole'], resolve)
+const authortree = resolve => require(['../pages/authortree'], resolve)
+const onorder = resolve => require(['../pages/onorder'], resolve)
+const outorder = resolve => require(['../pages/outorder'], resolve)
+const inParkOrderMag = resolve => require(['../pages/inParkOrderMag'], resolve)
+const outParkOrderMag = resolve => require(['../pages/outParkOrderMag'], resolve)
 const test = resolve => require(['../pages/test'], resolve)
 Vue.use(VueRouter)
 
@@ -44,10 +48,6 @@ const router = new VueRouter({
                 component: rolelist
             },
             {
-                path: '/ztree',
-                component: ztree
-            },
-            {
                 path: '/resources',
                 component: resources
             },
@@ -56,9 +56,30 @@ const router = new VueRouter({
                 component: resourceedit
             },
             {
+                path: '/authortree',
+                component: authortree
+            },
+            {
                 path: '/userrole',
                 component: userrole
-            }, {
+            },
+            {
+                path: '/outParkOrderMag',
+                component: outParkOrderMag
+            },
+            {
+                path: '/inParkOrderMag',
+                component: inParkOrderMag
+            },
+            {
+                path: '/onorder',
+                component: onorder
+            },
+            {
+                path: '/outorder',
+                component: outorder
+            },
+            {
                 path: '/test',
                 component: test
             }

@@ -1,4 +1,11 @@
 @import './variable.less';
+@font-face {
+    font-family: @num-font-family;
+    src: url("./fonts/AkzidenzGroteskBQ-XBoldAlt.otf");
+    font-weight: normal;
+    font-style: normal;
+}
+
 .borderLine {
     border: 1px solid @border-color-base;
 }
@@ -32,7 +39,8 @@
     padding-left: 0.5rem;
 }
 
-.mixin-btn(@color, @fontSize: 14px) {
+.mixin-btn(@color,
+@fontSize: 14px) {
     font-size: @fontSize;
     background: @color;
     border-color: @color;
@@ -72,35 +80,44 @@
     height: 55px;
     padding: 6px 60px 7px 60px;
     margin: 0 10px;
-    .mixin-btn(@base-clean-btn-color, 1.3rem);
+    .mixin-btn(@base-clean-btn-color,
+    1.3rem);
 }
 
 .modal-submit-btn {
     height: 40px;
     padding: 6px 30px 7px 30px;
     margin: 0 10px;
-    .mixin-btn(@select-btn-color, 1.1rem);
+    .mixin-btn(@select-btn-color,
+    1.1rem);
 }
 
 .modal-delete-btn {
     height: 40px;
     padding: 6px 40px 7px 40px;
     margin: 0 10px;
-    .mixin-btn(@alert-font-color, 1rem);
+    .mixin-btn(@alert-font-color,
+    1rem);
 }
 
 .modal-cancel-btn {
     height: 40px;
     padding: 6px 40px 7px 40px;
     margin: 10px 20px;
-    .mixin-btn(@base-clean-btn-color, 1rem);
+    .mixin-btn(@base-clean-btn-color,
+    1rem);
+}
+
+.validate {
+    color: red;
 }
 
 .submit-btn {
     height: 55px;
     padding: 6px 60px 7px 60px;
     margin: 10px 20px;
-    .mixin-btn(@select-btn-color, 1.3rem);
+    .mixin-btn(@select-btn-color,
+    1.3rem);
 }
 
 .icon-clean {
@@ -175,7 +192,7 @@
     position: absolute;
     top: 1px!important;
     left: 5px!important;
-    border: 2px solid #00ceec;
+    border: 2px solid #fff;
     border-top: 0;
     border-left: 0;
     -ms-transform: rotate(45deg) scale(1);
@@ -186,4 +203,41 @@
 .ivu-checkbox-checked .ivu-checkbox-inner {
     border-color: #00ceec!important;
     background-color: #00ceec!important;
+}
+
+.ivu-checkbox-indeterminate .ivu-checkbox-inner {
+    border-color: #00ceec!important;
+    background-color: #00ceec!important;
+}
+
+.ivu-checkbox-indeterminate .ivu-checkbox-inner:after {
+    content: '';
+    width: 8px;
+    height: 1px;
+    -ms-transform: scale(1);
+    transform: scale(1);
+    position: absolute;
+    left: 4px!important;
+    top: 6px!important;
+}
+
+.ivu-checkbox-wrapper {
+    margin-left: 10px!important;
+}
+
+.ivu-tree ul {
+    font-size: 14px!important;
+}
+
+.ivu-checkbox-disabled.ivu-checkbox-checked:hover .ivu-checkbox-inner {
+    border-color: #d7dde4!important;
+}
+
+.ivu-checkbox-disabled:hover .ivu-checkbox-inner {
+    border-color: #d7dde4!important;
+}
+
+.ivu-checkbox-disabled .ivu-checkbox-inner {
+    border-color: #d7dde4!important;
+    background-color: #f3f3f3!important;
 }

@@ -6,32 +6,37 @@
         <Icon type="ios-people" class="tree-header-icon" size="23"></Icon>
         组织机构
       </p>
-      <ztree :list='ztreeDataSource' :func='nodeClick' :is-open='true'></ztree>
+      <ztree :list='ztreeDataSource' :func='nodeClick1' :is-open='true'></ztree>
       </Col>
       <Col span="20" style="margin-top:100px">
       <div class="wrapper">
         <Row>
-          <Col span="8" class="role-item">
-          <p class="title">1,授权角色</p>
+          <Col span="8" class="role-item" style="overflow-y: auto; overflow-x: hidden;">
+          <p class="title">1、授权角色</p>
           <p>
             <Checkbox-group v-model="roleChecked">
-              <Checkbox :label="name" class="role-checkbox" v-for="name in roleNames"></Checkbox>
+              <Checkbox :label="name" class="role-checkbox" style="margin: 40px 10%;" v-for="name in roleNames"></Checkbox>
             </Checkbox-group>
           </p>
           <span class="diamonds" style="z-index:999"></span>
           </Col>
           <Col span="8" class="role-item" style="background: #F6FBFF;">
-          <p class="title">2,角色已授权菜单</p>
+          <p class="title">2、角色已授权菜单</p>
           <div class="ztree-content">
             <template v-for="(ztreeMenus,index) in ztreeMenusData">
               <p class="title-p">{{roleNames[index]}}</p>
-              <ztree :list='ztreeMenus' :func='nodeClick' :is-open='true'></ztree>
+              <ztree :list='ztreeMenus.list' :func='nodeClick' :param="ztreeMenus.roleId" :is-open='true'></ztree>
             </template>
           </div>
-          <span class="diamonds"></span>
+          <span class="diamonds" style="background: rgb(246, 251, 255)"></span>
           </Col>
-          <Col span="8" class="role-item">
-          <p class="title">3,授权车场</p>
+          <Col span="8" class="role-item" style="overflow-y: auto; overflow-x: hidden;">
+          <p class="title">3、授权车场</p>
+          <p>
+            <Checkbox-group v-model="currentParkNames">
+              <Checkbox :label="park.parkName" class="role-checkbox" style=" margin: 20px 10%;" v-for="park in parkList"></Checkbox>
+            </Checkbox-group>
+          </p>
           </Col>
         </Row>
       </div>
@@ -46,6 +51,7 @@
   </div>
 </template>
 <script>
+//此页面有bug
 export default {
   data() {
     return {
@@ -79,80 +85,204 @@ export default {
       ztreeMenusDataTemp: [],
       parkIds: [],
       funcTreeId: [],
-      parkNames: []
+      parkNames: [],
+      result: {
+        bmUserId: this.$route.query.bmUserId,
+        roleVoList: []
+      },
+      parkList: [],
+      currentParkNames: [],
+      currentRoleId: '',
+      isInvert: false
     }
   },
   mounted() {
     $("#content").css({ "height": window.innerHeight, "background": '#F0F5FB' })
     $(".left-tree").css({ "height": window.innerHeight })
-    if (this.$route.query.type == 0) {
-      this.init()
-    }
-    this.selectOrganizByFathorCode()
+    this.selectUserOrganizeByUserID()
     this.selectRoleByUserID()
   },
   watch: {
+    nodeClick1() {
+
+    },
     roleChecked: function (val) {
       let ids = []
       for (let v of val) {
         let obj = this.roles.find((item) => {
-          item.roleName == v
+          return item.roleName == v
         })
-        ids.push(v.bmRoleId)
+        if (obj) {
+          ids.push(obj.bmRoleId)
+        }
+        let index = this.result.roleVoList.findIndex(item => {
+          return obj.bmRoleId == item.bmRoleId
+        })
+        if (index == -1) {
+          this.result.roleVoList.push({ bmRoleId: obj.bmRoleId })
+        }
       }
       this.ids = ids
       //查询右侧树列表
       this.ztreeMenusDataTemp = []
       for (let id of ids) {
-        this.selectFunctreeByRoleId()
+        this.selectFunctreeByRoleId(id)
       }
       if (ids.length === 0) {
         this.ztreeMenusData = []
       }
+
+    },
+    currentParkNames: function (val) {
+      this.packResult(val)
     }
   },
   methods: {
-    nodeClick(m) {
-      this.funcTreeId = m.funcTreeId
+    nodeClick(m, param) {
+      this.currentRoleId = param
+      this.bmFunctreeId = m.bmFunctreeId
+
+      this.Invert()
+
     },
     init() {
-      //this.$route.query.bmFunctreeId
-      this.http.post('funcTree/selectFuncTreeById', {})
+      this.http.post(`btcauthorize/user/selectUserOrganizeByUserID/${this.$route.query.bmUserId}`, {})
         .then(data => {
           this.resource = data.body
         })
     },
+    Invert() {
+      let roleVo = {}, funcTreeVo = {}, bmRoleDataList = [], names = [], isLoad = true
+      if (!this.result.roleVoList) {
+        return
+      }
+      for (let roleVo of this.result.roleVoList) {
+        if (!roleVo.funcTreeVoList) continue
+        let index = roleVo.funcTreeVoList.findIndex(item => {
+          return item.bmFunctreeId == this.bmFunctreeId
+        })
+        if (index > -1) {
+          isLoad = false
+        }
+      }
+      if (isLoad) {
+        this.selectAuthorizeParkData()
+      } else {
+        roleVo = this.result.roleVoList.find(item => {
+          return item.bmRoleId == this.currentRoleId
+        })
+        if (!roleVo.funcTreeVoList) {
+          return
+        }
+        funcTreeVo = roleVo.funcTreeVoList.find(item => {
+          return item.bmFunctreeId == this.bmFunctreeId
+        })
+        if (!funcTreeVo.bmRoleDataList) {
+          return
+        }
+        bmRoleDataList = funcTreeVo.bmRoleDataList
+
+        for (let bmRoleData of bmRoleDataList) {
+          names.push(bmRoleData.dataName)
+        }
+        this.currentParkNames = names.slice(0)
+      }
+
+    },
+    packResult(selectNames) {
+      let roleVoList = this.result.roleVoList,
+        roleVo = [],
+        funcTreeVo = {},
+        bmRoleData = {},
+        bmRoleDataList = []
+      if (!this.currentRoleId) return
+      for (let selectName of selectNames) {
+        let obj = this.parkList.find((item) => {
+          return item.parkName == selectName
+        })
+        if (obj) {
+          bmRoleDataList.push({ dataId: obj.pmParkId, dataName: obj.parkName })
+        }
+      }
+      //获取当前角色的树状列表
+      roleVo = roleVoList.find((item) => {
+        return this.currentRoleId === item.bmRoleId
+      })
+      if (!roleVo.funcTreeVoList) {
+        roleVo.funcTreeVoList = []
+      }
+      //获取当前列表的 停车场列表
+      if (roleVo.funcTreeVoList && roleVo.funcTreeVoList.length === 0) {
+        roleVo.funcTreeVoList = []
+        if (this.bmFunctreeId) {
+          roleVo.funcTreeVoList.push({ bmFunctreeId: this.bmFunctreeId, bmRoleDataList: bmRoleDataList })
+        }
+      } else {
+        let index = roleVo.funcTreeVoList.findIndex((item) => {
+          return this.bmFunctreeId === item.bmFunctreeId
+        })
+        if (index > -1) {
+          roleVo.funcTreeVoList = roleVo.funcTreeVoList.delete(index)
+        }
+        roleVo.funcTreeVoList.push({ bmFunctreeId: this.bmFunctreeId, bmRoleDataList: bmRoleDataList })
+      }
+      console.log(JSON.stringify(this.result))
+    },
+
     selectRoleByUserID() {
-      this.http.post('/role/selectRoleByUserID', {})
+      this.http.post(`btcauthorize/role/selectRoleByUserID/${this.$route.query.bmUserId}`, {})
         .then(data => {
-          let roles = [], roleNames = [], roleChecked = [], roleIds = []
+          let roles = [], roleNames = [], roleChecked = [], roleIds = [], bmRoleList = []
           for (let role of data.body) {
             roleNames.push(role.roleName)
+            roles.push(role)
             if (role.checked) {
-              roles.push(role)
               roleIds.push(role.bmRoleId)
               roleChecked.push(role.roleName)
+              bmRoleList.push({ bmRoleId: role.bmRoleId })
             }
           }
           this.roles = roles
           this.roleNames = roleNames
           this.roleIds = roleIds
           this.roleChecked = roleChecked
+          this.result.roleVoList = bmRoleList
         })
     },
-    selectOrganizByFathorCode() {
-      this.http.post('/organizatoin/selectOrganizByFathorCode', {})
+    selectUserOrganizeByUserID() {
+      this.http.post(`btcauthorize/user/selectUserOrganizeByUserID/${this.$route.query.bmUserId}`, {})
         .then(data => {
           this.$nextTick(() => {
-            this.ztreeDataSource = data.body
+            this.ztreeDataSource.push(data.body)
           })
         })
     },
-    selectFunctreeByRoleId(roleId) {
-      //roleId
-      this.http.post('/funcTree/selectFunctreeByRoleId', {})
+
+    /**
+     *根据角色资源查询停车场数据
+     */
+    selectAuthorizeParkData() {
+      this.http.post('btcauthorize/user/selectAuthorizeParkData', {
+        userId: this.$route.query.bmUserId,
+        roleId: this.currentRoleId,
+        funcTreeId: this.bmFunctreeId
+      })
         .then(data => {
-          this.ztreeMenusDataTemp.push(data.body)
+          this.parkList = data.body
+          this.currentParkNames = []
+          for (let park of this.parkList) {
+            if (park.checked) {
+              this.currentParkNames.push(park.parkName)
+            }
+          }
+        })
+    },
+    selectFunctreeByRoleId(roleId) {
+      this.http.post(`btcauthorize/funcTree/selectFunctreeByRoleId/${roleId}`, {})
+        .then(data => {
+          debugger
+          let body = Object.assign({}, { list: data.body, roleId: roleId })
+          this.ztreeMenusDataTemp.push(body)
           if (this.ids.length > 0 && this.ids.length === this.ztreeMenusDataTemp.length) {
             this.$nextTick(() => {
               this.ztreeMenusData = this.ztreeMenusDataTemp
@@ -161,28 +291,12 @@ export default {
         })
     },
     submit() {
-      let url = '', params = {}
-      params.name = this.resource.name
-      params.type = this.resource.type
-      params.isPublic = ''
-      params.icon = this.resource.icon
-      params.url = this.resource.url
-      params.isLeaf = ''
-      params.levelCode = this.levelCode
-      params.bmOrganizationId = ''
-      params.enableStatus = this.resource.enableStatus
-      params.treeLevel = this.resource.treeLevel
-      params.remark = this.resource.remark
-      if (!this.type) {
-        params.parentCode = this.parentCode
-        url = '/funcTree/save'
-      } else {
-        params.bmFuncTreeId = this.resource.bmFuncTreeId
-        url = '/funcTree/update'
-      }
-      this.http.post(url, params).then(data => {
+      let params = {}
+      this.http.post('btcauthorize/user/authorizeData', {
+        params: JSON.stringify(this.result)
+      }).then(data => {
         alert(data.msg)
-        this.$router.push({ path: '/resources' })
+        this.$router.push({ path: '/userlist' })
       })
     }
   }

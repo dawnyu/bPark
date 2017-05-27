@@ -1,0 +1,25 @@
+{
+    "timestamp": "1463714771961",
+    "msg": "查询成功",
+    "isSuccess": "0",
+    "resultData": [{
+        "cardId": "sdfsdfgsdf",
+        "cardType": "包年卡",
+        "validityStart": "2017-01-01",
+        "validityEnd": "2017-01-01",
+        "residueDays": "10",
+        "relevanceCar": [{
+            "carNum": "京ADS232",
+            "color": "blue"
+        }, {
+            "carNum": "京MS3389",
+            "color": "black"
+        }, {
+            "carNum": "京MP3334",
+            "color": "green"
+        }, {
+            "carNum": "京MS0337",
+            "color": "yellow"
+        }]
+    }]
+}

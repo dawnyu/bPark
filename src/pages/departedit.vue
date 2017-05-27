@@ -7,7 +7,10 @@
           <Row type="flex" justify="space-around" style="margin-bottom:50px">
             <Col span="10">
             <p>上级部门:</p>
-            <Input size="large" :disabled="type" v-model="organization.parentName" class="input"></Input>
+            <!--<Input size="large" :disabled="type" v-model="organization.parentName" class="input"></Input>-->
+            <Select size="large" :disabled="type" v-model="superior" style="width:300px">
+              <ztree :list='superiorList' :func='nodeClick' :is-open='true' select class="initial-height"></ztree>
+            </Select>
             </Col>
             <Col span="10">
             <p>部门名称:</p>
@@ -35,12 +38,16 @@
 export default {
   data() {
     return {
-      organization: {},
+      organization: {
+        remark: ''
+      },
       type: this.$route.query.type === 1 ? false : true,
       name: '',
       parentName: '',
+      superior: '',
       parentCode: '',
-      remark: ''
+      remark: '',
+      superiorList: []
     }
   },
   mounted() {
@@ -48,25 +55,46 @@ export default {
     if (this.$route.query.type == 0) {
       this.init()
     }
+    this.selectOrganizByCurrentUser()
   },
   methods: {
     init() {
-      //this.$route.query.selectOrganizByOrganizationId
-      this.http.post('organization/selectOrganizByOrganizationId', {})
+      this.http.post(`btcauthorize/organization/selectOrganizByOrganizationId/${this.$route.query.bmOrganizationId}`, {})
         .then(data => {
           this.organization = data.body
+          this.superior = data.body.parentName
+          $(".ivu-select-placeholder").hide()
+          $(".ivu-select-selected-value").html(data.body.parentName).show()
+        })
+    },
+    nodeClick(val) {
+      this.superior = val.name
+      this.parentCode = val.bmOrganizationId
+      $(".ivu-select-selected-value").html(val.name)
+    },
+    selectOrganizByCurrentUser() {
+      this.http.post('btcauthorize/organization/selectOrganizByCurrentUser', {})
+        .then(data => {
+          this.$nextTick(() => {
+            this.superiorList = data.body
+          })
         })
     },
     submit() {
-      let url = ''
-      this.$route.query.type === 0 ? url = '/organization/save' : url = '/organization/update'
-      this.http.post(url, {
-        organizationCode: this.$route.query.bmOrganizationId,
-        parentCode: this.parentCode,
-        name: this.organization.name,
-        enableStatus: 0,
-        remark: this.organization.remark
-      }).then(data => {
+      let url = '',
+        params = {
+          name: this.organization.name,
+          enableStatus: 0,
+          remark: this.organization.remark,
+          parentCode: this.parentCode
+        }
+      if (this.$route.query.type === 0) {
+        url = 'btcauthorize/organization/update'
+        params.bmOrganizationId = this.$route.query.bmOrganizationId
+      } else {
+        url = 'btcauthorize/organization/save'
+      }
+      this.http.post(url, params).then(data => {
         alert(data.msg)
         this.$router.push({ path: '/department' })
       })
@@ -80,5 +108,31 @@ export default {
   font-size: 16px;
   padding: 6px 7px;
   height: 50px;
+}
+
+.initial-height {
+  height: initial!important;
+}
+
+.ivu-select-single .ivu-select-selection .ivu-select-placeholder {
+  height: 50px!important;
+  font-size: 16px!important;
+  line-height: 50px!important;
+}
+
+.ivu-select-single .ivu-select-selection .ivu-select-selected-value {
+  height: 50px;
+  font-size: 16px;
+  line-height: 50px;
+}
+
+.ivu-select-single .ivu-select-selection {
+  font-size: 16px!important;
+  height: 50px!important;
+  .ivu-select-selected-value {
+    height: 50px!important;
+    font-size: 16px!important;
+    line-height: 50px!important;
+  }
 }
 </style>

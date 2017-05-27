@@ -2,9 +2,8 @@
   <router-view class="view">
   </router-view>
 </template>
-<style lang="less" src="./assets/less/reset.less">
-
-</style>
+<style lang="less" src="./assets/less/reset.less"></style>
+<style lang="less" src="./ui/styles/index.less"></style>
 <style lang="less">
   ::-webkit-scrollbar {  
   width: 14px;  

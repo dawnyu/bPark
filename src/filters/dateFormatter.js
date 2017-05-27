@@ -43,6 +43,10 @@ const dateFormatter = (time, timeType, type) => {
     }
 }
 
+/**
+ * 数字
+ * @param {*} time
+ */
 const parseParkingTime = (time) => {
     if (!time) {
         return '00:00:00';
@@ -61,6 +65,14 @@ const parseParkingTime = (time) => {
         m = '0' + m;
     }
     return h + ':' + m + ':' + s;
+}
+
+/**
+ * 字符串
+ * @param {*} time
+ */
+const parseParkingTimeStr = (time = '') => {
+    return time.slice(0, 2) + ':' + time.slice(2, 4) + ':' + time.slice(4, 6)
 }
 
 const parseHoursValue = (minutes) => {
@@ -95,4 +107,4 @@ const secondTohms = (time) => {
     }
     return h + ":" + m + ":" + s;
 }
-export { dateFormatter, parseParkingTime, parseHoursValue, parseHoursText, secondTohms, zerofill }
+export { dateFormatter, parseParkingTime, parseHoursValue, parseHoursText, secondTohms, parseParkingTimeStr, zerofill }

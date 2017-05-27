@@ -4,13 +4,13 @@
       <Col span="4" class="left-tree" style="background:#fff">
       <p class="tree-header">
         <Icon type="ios-people" class="tree-header-icon" size="23"></Icon>
-        组织机构
+        资源清单
       </p>
       <ztree :list='ztreeDataSource' :func='nodeClick' :is-open='true'></ztree>
       </Col>
       <Col span="20" style="margin-top:100px">
       <div class="wrapper">
-        <blockTitle style="margin-top:30px">{{this.$route.query.bmFunctreeId ? '编辑':'新增'}}人员信息</blockTitle>
+        <blockTitle style="margin-top:30px">{{this.$route.query.bmFunctreeId ? '编辑':'新增'}}资源</blockTitle>
         <div class="content">
           <Row type="flex" justify="space-around">
             <Col span="10">
@@ -31,7 +31,7 @@
             </Col>
             <Col span="10">
             <p>排序编码:</p>
-            <Input size="large" v-model="resource.name" class="input"></Input>
+            <Input size="large" v-model="resource.orderCode" class="input"></Input>
             </Col>
           </Row>
           <Row type="flex" justify="space-around">
@@ -56,7 +56,9 @@
 export default {
   data() {
     return {
-      resource: {},
+      resource: {
+        remark: ''
+      },
       status: '启用',
       parentCode: '',
       treeLevel: '',
@@ -90,17 +92,18 @@ export default {
   },
   methods: {
     nodeClick(m) {
-      this.levelCode = m.levelCode
+      this.parentCode = m.parentCode
     },
     init() {
-      //this.$route.query.bmFunctreeId
-      this.http.post('funcTree/selectFuncTreeById', {})
+      var _t = this.$route.query.bmFunctreeId
+      this.http.post(`btcauthorize/funcTree/selectFuncTreeById/${this.$route.query.bmFunctreeId}`, {})
         .then(data => {
+          debugger
           this.resource = data.body
         })
     },
     selectFunctreeByCurrentUser() {
-      this.http.post('/funcTree/selectFunctreeByCurrentUser', {})
+      this.http.post('btcauthorize/funcTree/selectFunctreeByCurrentUser', {})
         .then(data => {
           this.$nextTick(() => {
             this.ztreeDataSource = data.body
@@ -110,23 +113,27 @@ export default {
     submit() {
       let url = '', params = {}
       params.name = this.resource.name
-      params.type = this.resource.type
-      params.isPublic = ''
+      params.type = this.resourceType
+      params.isPublic = 0
       params.icon = this.resource.icon
       params.url = this.resource.url
-      params.isLeaf = ''
-      params.levelCode = this.levelCode
       params.bmOrganizationId = ''
-      params.enableStatus = this.resource.enableStatus
+      params.orderCode = this.resource.orderCode
+      params.enableStatus = 0
       params.treeLevel = this.resource.treeLevel
       params.remark = this.resource.remark
       if (!this.type) {
+        if (!this.parentCode) {
+          alert("请选择父节点")
+          return
+        }
         params.parentCode = this.parentCode
-        url = '/funcTree/save'
+        url = 'btcauthorize/funcTree/save'
       } else {
-        params.bmFuncTreeId = this.resource.bmFuncTreeId
-        url = '/funcTree/update'
+        params.bmFunctreeId = this.resource.bmFunctreeId
+        url = 'btcauthorize/funcTree/update'
       }
+      debugger
       this.http.post(url, params).then(data => {
         alert(data.msg)
         this.$router.push({ path: '/resources' })

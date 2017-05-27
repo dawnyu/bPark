@@ -41,8 +41,8 @@
             <td>{{user.isAuth}}</td>
             <td>
               <Button size="small" class="edit-btn" @click.stop="edit(user.bmUserId)">编辑</Button>
-              <Button size="small" class="delete-btn" @click.stop="deleteModal = true">授权</Button>
-              <Button size="small" class="delete-btn" @click.stop="delModal(user.bmUserId)">删除</Button>
+              <Button size="small" class="accredit-btn" @click.stop="author(user.bmUserId)">授权</Button>
+              <Button size="small" class="delete-btn" @click.stop="delModal(user)">删除</Button>
             </td>
           </tr>
         </table>
@@ -63,7 +63,7 @@
       </p>
       <div style="text-align:center">
         <p>是否继续删除
-          <em>[部门]</em>？</p>
+          <em>[{{user.name}}]</em>？</p>
       </div>
       <div slot="footer">
         <Button type="error" size="large" class="modal-delete-btn" @click="del()">删除</Button>
@@ -82,6 +82,7 @@ export default {
       deleteModal: false,
       organizationId: '',
       userList: [],
+      user: {},
       levelCode: '',
       ztreeDataSource: []
     }
@@ -90,28 +91,36 @@ export default {
     this.loadPage()
     this.selectOrganizByFathorCode()
   },
+  watch: {
+    levelCode: function (val) {
+      this.loadPage()
+    }
+  },
   methods: {
     nodeClick(m) {
-      this.organizationId = m.organizationCode
+      this.levelCode = m.levelCode
     },
     loadPage() {
-      this.http.post('/user/selectUserByPage', {
+      this.http.post('btcauthorize/user/selectUserByPage', {
         name: '',
-        start: this.page * this.pageSize,
+        start: (this.page - 1) * this.pageSize,
         limit: this.pageSize,
-        organizationId: this.organizationId
+        levelCode: this.levelCode
       }).then(data => {
         this.userList = data.body
         this.total = data.total
       })
     },
     selectOrganizByFathorCode() {
-      this.http.post('/organizatoin/selectOrganizByFathorCode', {})
+      this.http.post('btcauthorize/organization/selectOrganizByCurrentUser', {})
         .then(data => {
           this.$nextTick(() => {
             this.ztreeDataSource = data.body
           })
         })
+    },
+    author(userId) {
+      this.$router.push({ path: '/userrole', query: { bmUserId: userId } })
     },
     toPage(page) {
       this.page = page
@@ -120,15 +129,14 @@ export default {
       this.$router.push({ path: '/useredit', query: { type: 1 } })
     },
     edit(id) {
-      this.$router.push({ path: '/useredit', query: { userId: id, type: 0 } })
+      this.$router.push({ path: '/useredit', query: { bmUserId: id, type: 0 } })
     },
-    delModal(id) {
+    delModal(user) {
       this.deleteModal = true
-      this.id = id
+      this.user = user
     },
     del() {
-      //`/user/deleteUserByUserId/${this.id}`
-      this.http.post(`/user/deleteUserByUserId`, {}).then(data => {
+      this.http.post(`btcauthorize/user/deleteUserByUserId/${this.user.bmUserId}`, {}).then(data => {
         this.deleteModal = false
         alert(data.msg)
         this.loadPage()

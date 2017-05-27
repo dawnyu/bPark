@@ -1,0 +1,17 @@
+{
+    "timestamp": "1463714771961",
+    "msg": "查询成功",
+    "isSuccess": "0",
+    "resultData": [{
+        "pmParkId": "asdasdasdasd",
+        "pmParkName": "测试A",
+        "carNum": "京A54611",
+        "color": "black",
+        "inParkDate": "20170101",
+        "inParkTime": "000000",
+        "inParkExit": "进场岗亭",
+        "inParkExitId": "asdafsdafsdfsdfsdf",
+        "inGmUser": "进场收费员",
+        "carType": "临停"
+    }]
+}

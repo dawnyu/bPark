@@ -1,15 +1,1 @@
-{
-    "isSuccess": "0",
-    "msg": "查询成功",
-    "body": {
-        "bmUserId": "1313131",
-        "name": "张三",
-        "bmOrganizationId": "ssss",
-        "login": "zhangsan",
-        "type": "0",
-        "email": "dddd@111.com",
-        "phone": "13015212015",
-        "contact": "4033333",
-        "remark": "ssssssssssssssssssss"
-    }
-}
+{ "body": { "bmUserId": "1579df691c0d48deb412b44bed40dd0e", "name": "管理员", "type": "0", "login": "admin", "password": null, "email": null, "phone": null, "contact": null, "createDt": 1495696880000, "bmOrganizationId": "0", "bmOrganizationName": null, "state": "0", "createId": "1579df691c0d48deb412b44bed40dd0e", "remark": null }, "isSuccess": 0, "msg": "查询成功" }

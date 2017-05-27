@@ -1,13 +1,1 @@
-{
-    "isSuccess": "0",
-    "msg": "查询成功",
-    "body": {
-        "bmFuncTreeId": "22222",
-        "name": "监控中心",
-        "isPublic": 0,
-        "type": 0,
-        "url": "www.baidu.com",
-        "enableStatus": "0",
-        "remark": ""
-    }
-}
+{ "body": { "bmFunctreeId": "3a144ede4f694e13a3bfd69c4771050a", "name": "测试111313231332213", "type": "0", "isPublic": null, "icon": "", "url": "www", "code": "3a144ede4f694e13a3bfd69c4771050a", "parentCode": "3", "isLeaf": null, "treeLevel": 2, "orderCode": 1, "bmOrganizationId": "", "bmOrganizationName": null, "enableStatus": "0", "createDt": 1495713950000, "createId": null, "createName": "测试1", "remark": "weewwe", "levelCode": "001003001" }, "isSuccess": 0, "msg": "保存成功" }

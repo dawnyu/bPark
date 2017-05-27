@@ -4,13 +4,13 @@ import router from './routers/'
 import './filters/'
 import jquery from 'jquery'
 import store from './store'
-import iView from 'iview'
+import Commponents from './ui/index'
+import locale from './ui/locale/lang/zh-CN'
 import Axios from './http/axios'
-import 'iview/dist/styles/iview.css'
 import myCommponents from '../src/components'
 
 Vue.use(myCommponents)
-Vue.use(iView)
+Vue.use(Commponents, { locale })
 Vue.prototype.http = Axios
 Array.prototype.delete = function(delIndex) {
     let temArray = []

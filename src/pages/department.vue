@@ -37,6 +37,7 @@
             <td>{{depart.remark}}</td>
             <td>
               <Button size="small" class="edit-btn" @click.stop="edit(depart.bmOrganizationId)">编辑</Button>
+              <!--<Button size="small" class="accredit-btn" @click.stop="author(depart.bmOrganizationId)">授权</Button>-->
               <Button size="small" class="delete-btn" @click.stop="delModal(depart.bmOrganizationId)">删除</Button>
             </td>
           </tr>
@@ -83,7 +84,7 @@ export default {
   mounted() {
     $(".left-tree").css({ "height": window.innerHeight })
     this.loadPage()
-    this.selectOrganizByFathorCode()
+    this.selectOrganizByCurrentUser()
   },
   watch: {
     organizationId(val) {
@@ -95,9 +96,9 @@ export default {
       this.organizationId = m.organizationCode
     },
     loadPage() {
-      this.http.post('/organizatoin/selectOrganizationByPage', {
+      this.http.post('btcauthorize/organization/selectOrganizationByPage', {
         name: '',
-        start: this.page * this.pageSize,
+        start: (this.page - 1) * this.pageSize,
         limit: this.pageSize,
         organizationId: this.organizationId
       }).then(data => {
@@ -105,13 +106,16 @@ export default {
         this.total = data.total
       })
     },
-    selectOrganizByFathorCode() {
-      this.http.post('/organizatoin/selectOrganizByFathorCode', {})
+    selectOrganizByCurrentUser() {
+      this.http.post('btcauthorize/organization/selectOrganizByCurrentUser', {})
         .then(data => {
           this.$nextTick(() => {
             this.ztreeDataSource = data.body
           })
         })
+    },
+    author(id) {
+      this.$router.push({ path: '/authortree', query: { bmOrganizationId: id } })
     },
     toPage(page) {
       this.page = page
@@ -127,9 +131,7 @@ export default {
       this.id = id
     },
     del() {
-      this.http.post('/organization/deleteOrganizById', {
-        organizationId: this.id
-      }).then(data => {
+      this.http.post(`btcauthorize/organization/deleteOrganizById/${this.id}`, {}).then(data => {
         this.deleteModal = false
         alert(data.msg)
         this.loadPage()
